@@ -11,16 +11,16 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'test -f index.html'
-                sh 'grep -q "CI/CD Pipeline Demo" index.html'
+                bat 'if not exist index.html exit /b 1'
+                bat 'findstr /C:"CI/CD Pipeline Demo" index.html >nul'
                 echo 'HTML validation passed!'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mkdir -p build'
-                sh 'cp index.html build/'
+                bat 'if not exist build mkdir build'
+                bat 'copy /Y index.html build\\index.html'
                 echo 'Build completed successfully!'
             }
         }
